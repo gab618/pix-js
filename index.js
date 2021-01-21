@@ -1,4 +1,11 @@
 const Pix = require("./Pix");
-const pix = new Pix("123", "descr", "Gab", "SAO PAULO", "777", 213.9);
+const pix = new Pix(
+  "emgail@email.com",
+  "Pagamento doido",
+  "Gabriel Blindado",
+  "SAO PAULO",
+  "777",
+  22
+);
 
-pix.teste();
+pix.getPayload();

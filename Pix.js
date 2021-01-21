@@ -23,6 +23,53 @@ module.exports = class Pix {
     this.ID_CRC16 = "63";
   }
 
+  _getValue(id, value) {
+    const size = String(value.length).padStart(2, "0");
+    return id + size + value;
+  }
+
+  _getMechantAccountInfo() {
+    const gui = this._getValue(
+      this.ID_MERCHANT_ACCOUNT_INFORMATION_GUI,
+      "br.gov.bcb.pix"
+    );
+    const key = this._getValue(
+      this.ID_MERCHANT_ACCOUNT_INFORMATION_KEY,
+      this.pixKey
+    );
+    const description = this._getValue(
+      this.ID_MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION,
+      this.description
+    );
+
+    return this._getValue(
+      this.ID_MERCHANT_ACCOUNT_INFORMATION,
+      gui + key + description
+    );
+  }
+
+  _getAdditionalDataFieldTemplate() {
+    const txid = this._getValue(
+      this.ID_ADDITIONAL_DATA_FIELD_TEMPLATE_TXID,
+      this.txid
+    );
+    return this._getValue(this.ID_ADDITIONAL_DATA_FIELD_TEMPLATE, txid);
+  }
+
+  getPayload() {
+    const payload =
+      this._getValue(this.ID_PAYLOAD_FORMAT_INDICATOR, "01") +
+      this._getMechantAccountInfo() +
+      this._getValue(this.ID_MERCHANT_CATEGORY_CODE, "0000") +
+      this._getValue(this.ID_TRANSACTION_CURRENCY, "986") +
+      this._getValue(this.ID_TRANSACTION_AMOUNT, this.amount) +
+      this._getValue(this.ID_COUNTRY_CODE, "BR") +
+      this._getValue(this.ID_MERCHANT_NAME, this.merchantName) +
+      this._getValue(this.ID_MERCHANT_CITY, this.merchantCity) +
+      this._getAdditionalDataFieldTemplate();
+    console.log(payload);
+  }
+
   teste() {
     console.log(this.pixKey);
     console.log(this.description);
