@@ -67,15 +67,41 @@ module.exports = class Pix {
       this._getValue(this.ID_MERCHANT_NAME, this.merchantName) +
       this._getValue(this.ID_MERCHANT_CITY, this.merchantCity) +
       this._getAdditionalDataFieldTemplate();
-    console.log(payload);
+
+    return payload + this._getCRC16(payload);
   }
 
-  teste() {
-    console.log(this.pixKey);
-    console.log(this.description);
-    console.log(this.merchantName);
-    console.log(this.merchantCity);
-    console.log(this.txid);
-    console.log(this.amount);
+  _getCRC16(payload) {
+    function ord(str) {
+      return str.charCodeAt(0);
+    }
+    function dechex(number) {
+      if (number < 0) {
+        number = 0xffffffff + number + 1;
+      }
+      return parseInt(number, 10).toString(16);
+    }
+
+    //ADICIONA DADOS GERAIS NO PAYLOAD
+    payload = payload + this.ID_CRC16 + "04";
+
+    //DADOS DEFINIDOS PELO BACEN
+    let polinomio = 0x1021;
+    let resultado = 0xffff;
+    let length;
+
+    //CHECKSUM
+    if ((length = payload.length) > 0) {
+      for (let offset = 0; offset < length; offset++) {
+        resultado ^= ord(payload[offset]) << 8;
+        for (let bitwise = 0; bitwise < 8; bitwise++) {
+          if ((resultado <<= 1) & 0x10000) resultado ^= polinomio;
+          resultado &= 0xffff;
+        }
+      }
+    }
+
+    //RETORNA CÓDIGO CRC16 DE 4 CARACTERES
+    return this.ID_CRC16 + "04" + dechex(resultado).toUpperCase();
   }
 };

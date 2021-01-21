@@ -4,8 +4,9 @@ const pix = new Pix(
   "Pagamento doido",
   "Gabriel Blindado",
   "SAO PAULO",
-  "777",
-  22
+  "ID7777",
+  22.1
 );
 
-pix.getPayload();
+const exemplo = pix.getPayload();
+console.log(exemplo);
