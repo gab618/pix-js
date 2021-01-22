@@ -18,7 +18,7 @@
 
 ## Sobre o projeto
 
-Se você precisa criar um QR code pix usando Javascript, essa classe pode te ajudar.
+Se você precisa criar um QR code pix usando Javascript, essa classe pode te ajudar. Conteúdo baseado na [versão em PHP do William Costa](https://github.com/william-costa/wdev-qrcode-pix-estatico-php).
 
 ## Objetivos do projeto
 
