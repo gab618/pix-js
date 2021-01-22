@@ -1,12 +1,11 @@
 const Pix = require("./Pix");
 const pix = new Pix(
-  "emgail@email.com",
-  "Pagamento doido",
-  "Gabriel Blindado",
-  "SAO PAULO",
-  "ID7777",
-  22.1
+  ">CHAVE PIX<",
+  ">DESCRIÇÃO DO PAGAMENTO<",
+  ">NOME DO BENEFICIADO<",
+  ">CIDADE<",
+  ">TXID<",
+  5.5
 );
 
-const exemplo = pix.getPayload();
-console.log(exemplo);
+const payload = pix.getPayload();
