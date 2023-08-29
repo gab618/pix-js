@@ -1,7 +1,6 @@
 module.exports = class Pix {
-  constructor(pixKey, description, merchantName, merchantCity, txid, amount) {
+  constructor(pixKey, merchantName, merchantCity, txid, amount) {
     this.pixKey = pixKey;
-    this.description = description;
     this.merchantName = merchantName;
     this.merchantCity = merchantCity;
     this.txid = txid;
@@ -11,7 +10,6 @@ module.exports = class Pix {
     this.ID_MERCHANT_ACCOUNT_INFORMATION = "26";
     this.ID_MERCHANT_ACCOUNT_INFORMATION_GUI = "00";
     this.ID_MERCHANT_ACCOUNT_INFORMATION_KEY = "01";
-    this.ID_MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION = "02";
     this.ID_MERCHANT_CATEGORY_CODE = "52";
     this.ID_TRANSACTION_CURRENCY = "53";
     this.ID_TRANSACTION_AMOUNT = "54";
@@ -24,6 +22,7 @@ module.exports = class Pix {
   }
 
   _getValue(id, value) {
+    value = value.toString();
     const size = String(value.length).padStart(2, "0");
     return id + size + value;
   }
@@ -37,14 +36,10 @@ module.exports = class Pix {
       this.ID_MERCHANT_ACCOUNT_INFORMATION_KEY,
       this.pixKey
     );
-    const description = this._getValue(
-      this.ID_MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION,
-      this.description
-    );
 
     return this._getValue(
       this.ID_MERCHANT_ACCOUNT_INFORMATION,
-      gui + key + description
+      gui + key
     );
   }
 
